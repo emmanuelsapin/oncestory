@@ -176,7 +176,11 @@ BEGIN {
   if (line ~ /^:[0-9]+:[0-9]+;/)
     sub(/^:[0-9]+:[0-9]+;/, "", line)
   gsub(/\r$/, "", line)
-  sub(/^[[:space:]]+/, "", line)
+  gsub(/[[:space:]]+/, " ", line)
+  sub(/^ /, "", line)
+  sub(/ $/, "", line)
+  sub(/\\$/, "", line)
+  sub(/ $/, "", line)
   if (line == "") next
   if (skip_self(line)) next
   n++

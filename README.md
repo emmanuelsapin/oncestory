@@ -1,22 +1,31 @@
-# oncestory
+# Oncestory
 
-**oncestory** is a portmanteau of **once** + **history** — unique, colored commands from your shell history.
+**Oncestory** is a portmanteau of **once** + **history** — unique, colored commands from your shell history.
+
+Must be **sourced** in your current shell so it sees live `history` (including event numbers past 1000). `bash oncestory.sh` starts a new process and only sees the on-disk history file.
 
 ## Install
 
 ```bash
 git clone https://github.com/emmanuelsapin/oncestory.git
 cd oncestory
-chmod +x oncestory.sh
+```
+
+Add to `~/.bashrc`:
+
+```bash
+Oncestory() {
+  builtin history -a 2>/dev/null || true
+  . /path/to/oncestory/oncestory.sh "$@"
+}
 ```
 
 ## Quick start
 
 ```bash
-bash oncestory.sh
-bash oncestory.sh -h
-bash oncestory.sh git              # only commands containing "git"
-ONCESTORY_LIMIT=100 bash oncestory.sh
+. /path/to/oncestory/oncestory.sh
+Oncestory                    # after the first source in this shell
+Oncestory git                # only commands containing "git"
 ```
 
 ## What you get
@@ -28,13 +37,12 @@ ONCESTORY_LIMIT=100 bash oncestory.sh
   - if length **< 43**, preview is the full command
 - `times` = how often that exact command appears in history
 - color by the first word (program name)
-- progress messages while loading a big history file
 
 ## Requirements
 
-- bash, awk  
-- a history file (`$HISTFILE`, `~/.bash_history`, or `~/.zsh_history`)  
-- terminal with 256 colors  
+- bash, awk
+- interactive bash (`history` builtin)
+- terminal with 256 colors
 
 ## Related
 
